@@ -78,6 +78,8 @@ var enemyBullet;
 var firingTimer = 0;
 var stateText;
 var livingEnemies = [];
+var nivel = 1;
+var nivelmaximo = 4;
 
 function create() {
 
@@ -125,6 +127,9 @@ function create() {
     //  Lives
     lives = game.add.group();
     game.add.text(game.world.width - 100, 10, 'Vidas: ', { font: '34px Arial', fill: '#fff' });
+
+    levels = game.add.group();
+    game.add.text(game.world.width - 100, 80, 'nivel: '+nivel, { font: '25px Arial', fill: '#fff' });
 
     //  Text
     stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#fff' });
@@ -242,6 +247,7 @@ function collisionHandler (bullet, alien) {
     explosion.play('kaboom', 30, false, true);
     if (aliens.countLiving() == 0)
     {
+      if(nivel>nivelmaximo){
         score += 1000;
         scoreText.text = scoreString + score;
         enemyBullets.callAll('kill',this);
@@ -251,6 +257,7 @@ function collisionHandler (bullet, alien) {
         stateText.visible = true;
         //the "click to restart" handler
         game.input.onTap.addOnce(restart,this);
+      } else { score += 5000; nivel+=1; create(); }
     }
 }
 
@@ -277,7 +284,7 @@ function enemyHitsPlayer (player,bullet) {
         zoeira.text="";
         zoeira.visible = true;
         setTimeout(function(){ zoeira.text+="a petrobras foi privatizada...\n"; zoeira.visible = true; }, 1000);
-        setTimeout(function(){ zoeira.text+="o banco do brasil foi privatizada...\n"; zoeira.visible = true; }, 2000);
+        setTimeout(function(){ zoeira.text+="o banco do brasil foi privatizado...\n"; zoeira.visible = true; }, 2000);
         setTimeout(function(){ zoeira.text+="a caixa economica foi privatizada...\n"; zoeira.visible = true; }, 3000);
         setTimeout(function(){ zoeira.text+="as universidades foram privatizadas...\n"; zoeira.visible = true; }, 4000);
         setTimeout(function(){ zoeira.text+="\nVAI TRABALHAR VAGABUNDO!!!\n"; zoeira.visible = true; }, 5000);
@@ -302,7 +309,7 @@ function enemyFires () {
         // And fire the bullet from this enemy
         enemyBullet.reset(shooter.body.x, shooter.body.y);
         game.physics.arcade.moveToObject(enemyBullet,player,120);
-        firingTimer = game.time.now + 2000;
+        firingTimer = game.time.now + parseInt(2000/nivel);
     }
 }
 
@@ -327,6 +334,7 @@ function resetBullet (bullet) {
 }
 
 function restart () {
+    nivel=1;
     create();
 }
 
