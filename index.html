@@ -55,6 +55,7 @@ function preload() {
     game.load.image('enemyBullet', 'assets/imgs/enemy-bullet.png');
     game.load.spritesheet('invader', 'assets/imgs/invader.png', 32, 32);
     game.load.image('ship', 'assets/imgs/player.png');
+    game.load.image('live', 'assets/imgs/live.png');
     game.load.spritesheet('kaboom', 'assets/imgs/explode.png', 128, 128);
     game.load.image('starfield', 'assets/imgs/starfield.png');
     game.load.image('perdeu', 'assets/imgs/bandeira-comunista.jpg');
@@ -132,9 +133,9 @@ function create() {
 
     for (var i = 0; i < 3; i++)
     {
-        var ship = lives.create(game.world.width - 100 + (30 * i), 60, 'ship');
+        var ship = lives.create(game.world.width - 100 + (30 * i), 60, 'live');
         ship.anchor.setTo(0.5, 0.5);
-        ship.angle = 90;
+        //ship.angle = 90;
         ship.alpha = 0.4;
     }
 
